@@ -3,7 +3,6 @@
 
     ViewData["Title"] = "Clock";
 
-
 }
 @section Scripts
     {
@@ -12,9 +11,13 @@
 
 <h2>Clock</h2>
 <div id="clock">
-
+    0:00
 
 </div>
 <button onclick="startTimer()" id="startButton">Start</button>
+<button onclick="stopTimer()" id="stopButton">Stop</button>
+<div>
+   <img src="@ViewData["userProfile"]" />
+</div>
 
 

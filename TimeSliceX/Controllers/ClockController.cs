@@ -2,37 +2,38 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TimeSliceX.Models;
 using TimeSliceX.Services;
+using Octokit;
 
 namespace TimeSliceX.Controllers
 {
     public class ClockController : Controller
     {
-
-        public IActionResult Index()
+        
+        public async Task<Account> GetProfile()
         {
-            var sw = new Stopwatch();
-            sw.Start();
-            var ElapsedTime = new TimeSpan(sw.ElapsedMilliseconds);
+            var client = new GitHubClient(new Octokit.ProductHeaderValue("TimeSlice"));
+            var user = await client.User.Get("nicholaslgoodman");
+            return user;
 
-            using (var task = Task.Delay(2000))
-            {                
-                task.Wait();
-                ViewData["ElapsedTime"] = sw.ElapsedMilliseconds.ToString();
-            }
 
-            sw.Stop();
-            
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var user = await GetProfile();
+            ViewData["userProfile"] = user.AvatarUrl.ToString();
             return View();
         }
 
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

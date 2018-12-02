@@ -33,3 +33,13 @@
         display: none;
     }
 }
+
+@font-face {
+    font-family: alarmClock;
+    src: url(/media/alarmclock.ttf);
+}
+
+#clock {
+    font-family: alarmClock;
+    font-size: 100px;
+}
