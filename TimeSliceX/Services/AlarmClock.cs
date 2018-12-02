@@ -9,44 +9,19 @@ namespace TimeSliceX.Services
     // https://stackoverflow.com/questions/1493203/alarm-clock-application-in-net Coincoin
     public class AlarmClock
     {
-        private Timer timer;
-        private DateTime alarmTime;
-        private bool enabled;
-        private EventHandler alarmEvent;
-
-        public AlarmClock(DateTime alarmTime)
+        public void runTimer(int span)
         {
-            this.alarmTime = alarmTime;
+            Timer aTimer = new Timer(span);
 
-            timer = new Timer();
-            timer.Elapsed += timer_Elapsed;
-            timer.Interval = 1000;
-            timer.Start();
-
-            enabled = true;
+            aTimer.Elapsed += new ElapsedEventHandler(RunEvent);
+            aTimer.Interval = 1000;
+            aTimer.Enabled = true;
         }
 
-        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        //This method will get called every second until the timer stops or the program exits.
+        public void RunEvent(object source, ElapsedEventArgs e)
         {
-            if (enabled && DateTime.Now > alarmTime)
-            {
-                enabled = false;
-                OnAlarm();
-                timer.Stop();
-            }
-        }
-
-        protected virtual void OnAlarm()
-        {
-            if (alarmEvent != null)
-                alarmEvent(this, EventArgs.Empty);
-        }
-
-
-        public event EventHandler Alarm
-        {
-            add { alarmEvent += value; }
-            remove { alarmEvent -= value; }
+            Console.WriteLine("RunEvent() called at " + DateTime.Now.ToLongTimeString());
         }
     }
 }

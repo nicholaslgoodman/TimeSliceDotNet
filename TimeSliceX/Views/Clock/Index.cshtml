@@ -1,0 +1,20 @@
+﻿@using System.Diagnostics;
+@{
+
+    ViewData["Title"] = "Clock";
+
+
+}
+@section Scripts
+    {
+    <script src="@Url.Content("~/js/timer.js")"></script>
+}
+
+<h2>Clock</h2>
+<div id="clock">
+
+
+</div>
+<button onclick="startTimer()" id="startButton">Start</button>
+
+
